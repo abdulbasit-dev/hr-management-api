@@ -63,7 +63,7 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
-        $this->authorize('add_task');
+        // $this->authorize('add_task');
 
         // begin transaction
         DB::beginTransaction();
@@ -93,7 +93,7 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
-        $this->authorize('edit_task');
+        // $this->authorize('edit_task');
 
         // begin transaction
         DB::beginTransaction();
@@ -114,7 +114,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        $this->authorize('delete_task');
+        // $this->authorize('delete_task');
 
         // begin transaction
         DB::beginTransaction();

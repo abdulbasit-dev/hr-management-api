@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $this->authorize('view_user');
+        // $this->authorize('view_user');
 
         $users = User::with("tasks")->get();
 
@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        $this->authorize('add_user');
+        // $this->authorize('add_user');
 
         // begin transaction
         DB::beginTransaction();
@@ -47,7 +47,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $this->authorize('view_user');
+        // $this->authorize('view_user');
 
         $user->load("tasks");
 
@@ -56,7 +56,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $this->authorize('edit_user');
+        // $this->authorize('edit_user');
 
         // begin transaction
         DB::beginTransaction();
@@ -81,7 +81,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $this->authorize('delete_user');
+        // $this->authorize('delete_user');
 
         // begin transaction
         DB::beginTransaction();

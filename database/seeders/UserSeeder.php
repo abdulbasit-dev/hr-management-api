@@ -10,87 +10,27 @@ use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         DB::table('users')->delete();
 
         $faker = Factory::create();
 
-        foreach (range(1, 10) as $index) {
+        User::create([
+            'name' =>  'admin',
+            'email' =>  "admin@" . config("app.name") . ".co",
+            'password' => "password",
+            "email_verified_at" => now(),
+        ])->assignRole("admin");
 
-            if ($index == 1) {
-                $name = "basit";
-                $user = User::firstOrCreate(
-                    [
-                        "email" => strtolower($name) . "@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-                    ],
-                    [
-                        "name" => $name,
-                        "password" => bcrypt("password"),
-                    ]
-                );
-                $user->assignRole("product_owner");
-                continue;
-            }
-
-
-            if ($index == 4) {
-                $name = "developer";
-                $user = User::firstOrCreate(
-                    [
-                        "email" => strtolower($name) . "@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-                    ],
-                    [
-                        "name" => $name,
-                        "password" => bcrypt("password"),
-                    ]
-                );
-                $user->assignRole("developer");
-                continue;
-            }
-
-            if ($index == 7) {
-                $name = "tester";
-                $user = User::firstOrCreate(
-                    [
-                        "email" => strtolower($name) . "@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-                    ],
-                    [
-                        "name" => $name,
-                        "password" => bcrypt("password"),
-                    ]
-                );
-                $user->assignRole("tester");
-                continue;
-            }
-
-
-
-            $name = $faker->firstName();
-            $user = User::firstOrCreate(
-                [
-                    "email" => strtolower($name) . "@" . strtolower(str_replace(' ', '', config("app.name"))) . ".com",
-                ],
-                [
-                    "name" => $name,
-                    "password" => bcrypt("password"),
-                ]
-            );
-
-            // for the 1 and 2 user, assign the role of product owner
-            // and for 3-7 assign the role of developer
-            // and rest of the user assign the role of tester
-
-            if ($index == 1 || $index == 2) {
-                $user->assignRole("product_owner");
-            } elseif ($index >= 3 && $index <= 6) {
-                $user->assignRole("developer");
-            } else {
-                $user->assignRole("tester");
-            }
-        }
+        // // create 10 users
+        // foreach (range(1, 10) as $index) {
+        //     User::create([
+        //         'name' => $index == 1 ? 'admin' : $faker->name,
+        //         'email' => $index == 1 ? "admin@tornet.co" : $faker->email,
+        //         'password' => "password",
+        //         "email_verified_at" => now(),
+        //     ]);
+        // }
     }
 }

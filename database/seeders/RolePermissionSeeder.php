@@ -16,25 +16,26 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $permissions  = [
-            "view_role",
-            "add_role",
-            "edit_role",
-            "delete_role",
+            "role_add",
+            "role_edit",
+            "role_view",
+            "role_delete",
+            "role_export",
+            "role_import",
 
-            "view_user",
-            "add_user",
-            "edit_user",
-            "delete_user",
+            "user_add",
+            "user_edit",
+            "user_view",
+            "user_delete",
+            "user_export",
+            "user_import",
 
-            "view_project",
-            "add_project",
-            "edit_project",
-            "delete_project",
-
-            "view_task",
-            "add_task",
-            "edit_task",
-            "delete_task",
+            "employee_add",
+            "employee_edit",
+            "employee_view",
+            "employee_delete",
+            "employee_export",
+            "employee_import",
 
             // "_add",
             // "_edit",
@@ -51,16 +52,12 @@ class RolePermissionSeeder extends Seeder
             ]);
         }
 
-        $roles = ["product_owner", "developer", "tester"];
+        $roles = ["admin", "hr", "employee"];
 
         foreach ($roles as $role) {
             Role::firstOrCreate([
                 'name' => $role,
             ]);
         }
-
-        // assign all permission to product owner
-        $productOwner = Role::findByName("product_owner");
-        $productOwner->givePermissionTo($permissions);
     }
 }

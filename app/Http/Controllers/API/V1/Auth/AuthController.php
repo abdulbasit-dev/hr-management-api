@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Order;
-use App\Enums\OrderStatus;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         //validation
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
-            'password' => ['required', 'string' , 'min:8'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +43,21 @@ class AuthController extends Controller
         $user->unsetRelation('roles');
 
         return $this->jsonResponse(true, __('Logged In Successfully!'), Response::HTTP_OK, $user);
+    }
+
+    // register
+    public function register(RegisterRequest $request)
+    {
+        try {
+            $validated = $request->validated();
+
+            User::create($validated)->assignRole("employee");
+
+            return $this->jsonResponse(true, __('Registered Successfully!'), Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
     }
 
     public function logout()

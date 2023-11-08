@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\{
+    EmployeeController,
     ProjectController,
     RoleController,
     UserController,
@@ -11,11 +12,9 @@ use App\Http\Controllers\Api\V1\{
     TaskController,
     SubtaskController,
 };
-
 use Illuminate\Support\Facades\Artisan;
 
-//API V1
-Route::group(['prefix' => 'v1', "middleware"=>["throttle:30,1"]], function () {
+Route::group(["middleware" => ["throttle:30,1"]], function () {
     /*======PUBLIC ROUTES=====*/
 
     //Clear all cache
@@ -33,6 +32,7 @@ Route::group(['prefix' => 'v1', "middleware"=>["throttle:30,1"]], function () {
     // auth
     Route::group(["prefix" => "auth"], function () {
         Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register']);
     });
 
     /*=====PROTECTED ROUTES=====*/
@@ -42,30 +42,15 @@ Route::group(['prefix' => 'v1', "middleware"=>["throttle:30,1"]], function () {
             Route::post("logout", [AuthController::class, 'logout']);
         });
 
-
-        // roles
-        Route::get("roles", RoleController::class);
-
         // users
         Route::apiResource('users', UserController::class);
 
-        // projects
-        Route::apiResource('projects', ProjectController::class);
+        // employees
+        Route::get('/employees/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
+        Route::apiResource('employees', EmployeeController::class);
 
         // task-statuses
         Route::get('task-statuses', TaskStatusController::class);
-
-        // tasks
-        Route::post('tasks/{task}/assign-task', [TaskController::class, 'assignTask']);
-        Route::post('tasks/{task}/change-status', [TaskController::class, 'changeStatus']);
-        Route::apiResource('tasks', TaskController::class);
-
-        // subtasks
-        Route::post('tasks/{task}/subtasks/{subtask}/assign-subtask', [SubTaskController::class, 'assignSubTask']);
-        Route::apiResource('tasks.subtasks', SubtaskController::class);
-
-        // task transitions
-
     });
 });
 

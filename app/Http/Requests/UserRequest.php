@@ -51,7 +51,6 @@ class UserRequest extends FormRequest
             "name"              => ['required'],
             "email"             => ['required', $checkUniqueEmail],
             "password"          => $passwordRule,
-            'role'              => ['required'],
         ];
     }
 

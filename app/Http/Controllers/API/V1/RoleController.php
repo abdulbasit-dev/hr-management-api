@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $this->authorize("view_role");
+        // $this->authorize("view_role");
 
         $roles = Role::all();
 
