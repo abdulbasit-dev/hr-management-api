@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\TaskDueDatePassedEvent;
-use App\Listeners\NotifyProductOwnerListener;
-use App\Models\Task;
-use App\Observers\TaskObserver;
+use App\Models\Employee;
+use App\Observers\EmployeeObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,17 +16,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        TaskDueDatePassedEvent::class => [
-            NotifyProductOwnerListener::class,
-        ],
     ];
 
+    protected $observers = [
+        Employee::class => [EmployeeObserver::class]
+    ];
     /**
      * Register any events for your application.
      */
     public function boot(): void
     {
-        // Task::observe(TaskObserver::class);
     }
 
     /**

@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'employee'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,9 +67,10 @@ return [
 
         // custom log channel
         'employee' => [
-            'driver' => 'employee',
+            'driver' => 'daily',
             'path' => storage_path('logs/employee.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 10,
             'replace_placeholders' => true,
         ],
 
