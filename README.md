@@ -1,12 +1,12 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-# TaskWise
+# HR Management
 
-Welcome to TaskWise! This project is designed to simplify task management and streamline team collaboration. The application provides a robust task tracking system with features like due date monitoring, role-based status transitions, and notifications.
+Welcome to HR Management! This project is designed to simplify task management and streamline team collaboration. The application provides a robust task tracking system with features like due date monitoring, role-based status transitions, and notifications.
 
 ## Getting Started
 
-To start using TaskWise, follow these steps:
+To start using Project, follow these steps:
 
 1. Clone the repository to your local machine:
    ```shell
@@ -80,3 +80,46 @@ We have already set up email sending in this project, and we're using MailTrap, 
    php artisan queue:work
    ```
    This command starts the Laravel queue worker, which processes jobs in the background. It's essential for sending emails and performing other queued tasks.
+
+
+### Commands:
+
+#### 1- Delete Logs Older than 1 Month
+
+This command deletes logs older than 1 month from the employee_logs table.
+
+```shell
+php artisan logs:delete
+```
+
+#### 2- Remove All Log Files
+
+This command removes all log files from the storage directory.
+
+```shell
+php artisan logfiles:remove
+```
+
+#### 3- Insert Employees Based on Count
+
+This command inserts employee data based on a given number with a progress bar.
+
+```shell
+php artisan employees:insert --count=100
+```
+
+#### 4- Export Database to SQL File
+
+This command exports the database to an SQL file.
+
+```shell
+php artisan database:export
+```
+
+#### 5- Export All Employees to JSON File
+
+This command exports all employees to a JSON file.
+
+```shell
+php artisan employees:export-json
+```
