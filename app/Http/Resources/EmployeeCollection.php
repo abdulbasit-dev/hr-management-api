@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -11,15 +12,21 @@ class EmployeeCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'result' => true,
+            'result'  => true,
             'message' => "Employees fetched successfully!",
-            'status' => Response::HTTP_OK,
-            'total' => $this->collection->count(),
-            'data' => $this->collection->map(function ($task) {
+            'status'  => Response::HTTP_OK,
+            'total'   => $this->collection->count(),
+            'data'    => $this->collection->map(function ($data) {
                 return [
-                    'id' => $task->id,
-                    'name' => $task->name,
-                    "create_at" => $task->created_at->format('Y-m-d H:i:s'),
+                    'id' => $data->id,
+                    'name' => $data->name,
+                    "email" => $data->email,
+                    "job_title" => $data->job->name ?? null,
+                    "age" => $data->age,
+                    "gender"=> $data->gender->getLabelText(),
+                    "hire_date" => Carbon::parse($data->hire_date)->format('Y-m-d'),
+                    "salary" => $data->salary,
+                    "create_at" => $data->created_at->format('Y-m-d H:i:s'),
                 ];
             }),
         ];

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\User;
+use Log;
 
 trait ActionByTrait
 {
@@ -11,7 +12,10 @@ trait ActionByTrait
     {
         if (auth()->check()) {
             static::creating(function ($model) {
-                $model->created_by = auth()->id();
+                // if  its already set then don't override it
+                if (empty($model->created_by)){
+                    $model->created_by = auth()->id();
+                }
             });
 
             static::updating(function ($model) {

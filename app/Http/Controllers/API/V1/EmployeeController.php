@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TaskRequest;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeCollection;
-use App\Http\Resources\TaskCollection;
-use App\Http\Resources\TaskResource;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
-use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +23,7 @@ class EmployeeController extends Controller
         return new EmployeeCollection($employees);
     }
 
-    public function store(TaskRequest $request)
+    public function store(EmployeeRequest $request)
     {
         // $this->authorize('add_project');
 
@@ -34,30 +32,29 @@ class EmployeeController extends Controller
         try {
             $validated = $request->validated();
 
+            return $validated;
+
             $employee = Employee::create($validated);
 
-            return $employee;
-
             // commit transaction
-            // DB::commit();
+            DB::commit();
 
-            return $this->jsonResponse(true, __('Task created successfully!'), Response::HTTP_CREATED, $employee);
+            return $this->jsonResponse(true, __('Employee created successfully!'), Response::HTTP_CREATED, $employee);
         } catch (\Throwable $th) {
             // rollback transaction
             DB::rollBack();
-
             throw $th;
         }
     }
 
-    public function show(Task $employee)
+    public function show(Employee $employee)
     {
         // $this->authorize('view_project');
 
-        return new EmployeeResource($task);
+        return new EmployeeResource($employee);
     }
 
-    public function update(TaskRequest $request, Employee $employee)
+    public function update(EmployeeRequest $request, Employee $employee)
     {
         // $this->authorize('edit_project');
 
@@ -73,7 +70,7 @@ class EmployeeController extends Controller
             // commit transaction
             DB::commit();
 
-            return $this->jsonResponse(true, __('Task updated successfully!'), Response::HTTP_OK, $employee);
+            return $this->jsonResponse(true, __('Employee updated successfully!'), Response::HTTP_OK, $employee);
         } catch (\Throwable $th) {
             // rollback transaction
             DB::rollBack();
@@ -82,7 +79,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function destroy(Task $employee)
+    public function destroy(Employee $employee)
     {
         // $this->authorize('delete_project');
 
@@ -94,7 +91,7 @@ class EmployeeController extends Controller
             // commit transaction
             DB::commit();
 
-            return $this->jsonResponse(true, __('Task deleted successfully!'), Response::HTTP_OK);
+            return $this->jsonResponse(true, __('Employee deleted successfully!'), Response::HTTP_OK);
         } catch (\Throwable $th) {
             // rollback transaction
             DB::rollBack();

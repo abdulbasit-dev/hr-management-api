@@ -3,11 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class SubTaskRequest extends FormRequest
+class EmployeeRequest extends FormRequest
 {
 
     public function failedValidation(Validator $validator)
@@ -27,10 +28,19 @@ class SubTaskRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            "title"             => ['required', "string"],
-            "description"       => ['required', "string"],
-            "due_date"          => ['required', "date"],
+        $rules = [
+            'name' => ['required', "string","uppercase"],
+            "email" => ["required", "email", Rule::unique("employees", "email")->ignore($this->route("employee"))],
+            "job_id" => ["required", "exists:employee_jobs,id"],
+            "age" => ["required", "numeric", "min:18", "max:60"],
+            "hire_date" => ["required", "date"],
+            "salary"    => ["required","min:1000","max:4000"],
         ];
+
+        // if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+        //     $rules['name'] = ['required', 'unique:songs,name,' . $this->route('channel')->id];
+        // }
+
+        return $rules;
     }
 }

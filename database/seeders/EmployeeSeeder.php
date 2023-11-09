@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Employee;
+use App\Models\EmployeeJob;
+use App\Enums\Gender;
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,26 +19,26 @@ class EmployeeSeeder extends Seeder
 
         // founder
         Employee::create([
-            "name"       => "Dr. Anibal D'Amore ",
+            "job_id"     => EmployeeJob::whereName("Founder")->value("id"),
+            "name"       => "Dr. Anibal D'Amore",
             "email"      => "anibal@tornet.co",
             "age"        => 46,
             "hire_date"  => $faker->date(),
-            "salary"     => "4000000",
-            "gender"     => "Male",
-            "job_title"  => "Founder",
+            "salary"     => "3000",
+            "gender"     => Gender::MALE,
             "is_founder" => true,
         ]);
 
         // create 100 employees
-        foreach (range(1, 100) as $index) {
+        foreach (range(1, 50) as $index) {
             Employee::create([
+                "job_id" => EmployeeJob::inRandomOrder()->first()->id,
                 "name"  => $faker->name(),
                 "email" => $faker->email(),
                 "age" => $faker->numberBetween(18, 60),
                 "hire_date" => $faker->date(),
-                "salary"    => rand(1, 11111111),
-                "gender"   => $faker->randomElement(["Male", "Female", "Other"]),
-                "job_title" => $faker->jobTitle()
+                "salary"    => rand(1000, 2000),
+                "gender" => array_rand(array_column(Gender::cases(), 'value')),
             ]);
         }
     }
