@@ -18,6 +18,7 @@ class Employee extends Model
         'gender' =>  Gender::class,
     ];
 
+  
     // relations
     public function manager()
     {

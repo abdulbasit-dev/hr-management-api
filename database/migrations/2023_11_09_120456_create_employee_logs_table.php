@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->nullable()->constrained('employees', 'id')->onDelete('cascade');
             $table->string("action");
-            $table->string("old_value")->nullable();
-            $table->string("new_value")->nullable();
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('action_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
