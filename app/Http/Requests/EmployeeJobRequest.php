@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class EmployeeRequest extends FormRequest
+class EmployeeJobRequest extends FormRequest
 {
 
     public function failedValidation(Validator $validator)
@@ -28,17 +28,8 @@ class EmployeeRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
+        return [
             'name'       => ['required', "string"],
-            "email"      => ["required", "email", Rule::unique("employees", "email")->ignore($this->route("employee"))],
-            "age"        => ["required", "numeric", "min:18", "max:60"],
-            "job_id"     => ["required", "exists:employee_jobs,id"],
-            "manager_id" => ["sometimes", "exists:employees,id"],
-            "gender"     => ["required", "in:0,1,2"],
-            "hire_date"  => ["required", "date"],
-            "salary"     => ["required"],
         ];
-
-        return $rules;
     }
 }

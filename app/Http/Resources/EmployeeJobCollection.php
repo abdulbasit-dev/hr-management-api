@@ -7,26 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 
-class EmployeeCollection extends ResourceCollection
+class EmployeeJobCollection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
         return [
             'result'  => true,
-            'message' => "Employees fetched successfully!",
+            'message' => "Employee Jobs fetched successfully!",
             'status'  => Response::HTTP_OK,
+            "count"   => $this->collection->count(),
             'data'    => $this->collection->map(function ($data) {
                 return [
                     'id' => $data->id,
                     'name' => $data->name,
-                    "email" => $data->email,
-                    "job_title" => $data->job->name ?? null,
-                    "manager_name" => $data->manager->name ?? null,
-                    "age" => $data->age,
-                    "gender"=> $data->gender->getLabelText(),
-                    "hire_date" => Carbon::parse($data->hire_date)->format('Y-m-d'),
-                    "salary" => $data->salary,
                     "create_at" => $data->created_at->format('Y-m-d H:i:s'),
+                    "update_at" => $data->updated_at->format('Y-m-d H:i:s'),
+                    "created_by" => $data->createdBy->name,
+                    "updated_by" => $data->updatedBy->name,
                 ];
             }),
         ];

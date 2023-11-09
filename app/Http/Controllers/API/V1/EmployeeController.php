@@ -15,29 +15,36 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        // $this->authorize('view_project');
-
         $employees = Employee::paginate(10);
 
         return new EmployeeCollection($employees);
     }
 
+    public function search()
+    {
+        $employees = Employee::paginate(10);
+
+        return new EmployeeCollection($employees);
+    }
+
+    public function mangers()
+    {
+        // $employees = Employee::paginate(10);
+
+        // return new EmployeeCollection($employees);
+    }
+
     public function store(EmployeeRequest $request)
     {
-        // $this->authorize('add_project');
-
         // begin transaction
         DB::beginTransaction();
         try {
             $validated = $request->validated();
 
-            return $validated;
-
             $employee = Employee::create($validated);
 
             // commit transaction
             DB::commit();
-
             return $this->jsonResponse(true, __('Employee created successfully!'), Response::HTTP_CREATED, $employee);
         } catch (\Throwable $th) {
             // rollback transaction
@@ -48,27 +55,20 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        // $this->authorize('view_project');
-
         return new EmployeeResource($employee);
     }
 
     public function update(EmployeeRequest $request, Employee $employee)
     {
-        // $this->authorize('edit_project');
-
         // begin transaction
         DB::beginTransaction();
         try {
-            $validated = $request->safe()->except(['role']);
+            $validated = $request->validated();
 
             $employee->update($validated);
 
-            $employee->syncRoles($request->role);
-
             // commit transaction
             DB::commit();
-
             return $this->jsonResponse(true, __('Employee updated successfully!'), Response::HTTP_OK, $employee);
         } catch (\Throwable $th) {
             // rollback transaction
@@ -80,8 +80,6 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
-        // $this->authorize('delete_project');
-
         // begin transaction
         DB::beginTransaction();
         try {

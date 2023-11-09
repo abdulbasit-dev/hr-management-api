@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\{
     EmployeeController,
+    EmployeeJobController,
     UserController,
     GenderController,
 };
@@ -43,7 +44,11 @@ Route::group(["middleware" => ["throttle:30,1"]], function () {
 
         // employees
         Route::get('/employees/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
+        Route::get('/employees/mangers', [EmployeeController::class, "mangers"]);
         Route::apiResource('employees', EmployeeController::class);
+
+        // jobs
+        Route::apiResource('jobs', EmployeeJobController::class);
 
         // genders
         Route::get("genders", [GenderController::class,"__invoke"]);

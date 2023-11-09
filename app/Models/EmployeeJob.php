@@ -11,6 +11,8 @@ class EmployeeJob extends Model
 {
     use HasFactory, ActionByTrait, SoftDeletes;
 
+    protected $guarded = [];
+
     // relations
     public function employees()
     {

@@ -28,7 +28,7 @@ trait ActionByTrait
     {
         return $this->belongsTo(User::class, 'created_by')->withDefault(
             [
-                'name' => '---',
+                'name' => '',
             ]
         );
     }
@@ -37,7 +37,7 @@ trait ActionByTrait
     {
         return $this->belongsTo(User::class, 'updated_by')->withDefault(
             [
-                'name' => '---',
+                'name' => '',
             ]
         );
     }
