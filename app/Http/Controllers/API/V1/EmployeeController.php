@@ -14,7 +14,6 @@ use App\Models\Employee;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -88,7 +87,6 @@ class EmployeeController extends Controller
         DB::beginTransaction();
         try {
             $validated = $request->validated();
-
             $employee->update($validated);
 
             // commit transaction
