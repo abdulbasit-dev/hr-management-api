@@ -42,4 +42,16 @@ enum Gender: int
             "Other"  => self::OTHER,
         };
     }
+
+    public static function toArray(): array
+    {
+        $array = [];
+        foreach (self::cases() as $value => $case) {
+            $array[] = [
+                "label" => $case->getLabelText(),
+                "value" => $value,
+            ];
+        }
+        return $array;
+    }
 }

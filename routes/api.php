@@ -5,12 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\{
     EmployeeController,
-    ProjectController,
-    RoleController,
     UserController,
-    TaskStatusController,
-    TaskController,
-    SubtaskController,
+    GenderController,
 };
 use Illuminate\Support\Facades\Artisan;
 
@@ -49,8 +45,8 @@ Route::group(["middleware" => ["throttle:30,1"]], function () {
         Route::get('/employees/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
         Route::apiResource('employees', EmployeeController::class);
 
-        // task-statuses
-        Route::get('task-statuses', TaskStatusController::class);
+        // genders
+        Route::get("genders", [GenderController::class,"__invoke"]);
     });
 });
 
