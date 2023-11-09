@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\ManagerCollection;
 use App\Models\Employee;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -15,25 +17,40 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        $employees = Employee::paginate(10);
+        $limit = request()->limit ?? static::ITEM_PER_PAGE;
+
+        $employees = Employee::paginate($limit);
 
         return new EmployeeCollection($employees);
     }
 
     public function search()
     {
-        $employees = Employee::paginate(10);
+        $searchParams = request()->all();
+        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
+        $name  = Arr::get($searchParams, 'name', null);
+        $salary = Arr::get($searchParams, 'salary', null);
+
+        $employees = Employee::query()
+            ->when($name, function ($query, $name) {
+                return $query->where('name', 'like', "%{$name}%");
+            })
+            ->when($salary, function ($query, $salary) {
+                return $query->where('salary', 'like', "%{$salary}%");
+            })
+            ->paginate($limit);
 
         return new EmployeeCollection($employees);
     }
 
     public function mangers()
     {
+        // return all employees (managers) who are manager on other employees
+        $managers = Employee::whereHas('employees', function ($query) {
+            $query->where('manager_id', '!=', null);
+        })->get();
 
-        // return all manger employees
-        $employees = Employee::whereHas('manager')->paginate(10);
-
-
+        return new ManagerCollection($managers);
     }
 
     public function store(EmployeeRequest $request)

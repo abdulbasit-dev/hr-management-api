@@ -46,6 +46,9 @@ Route::group(["middleware" => ["throttle:30,1"]], function () {
         Route::get('/employees/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
         Route::get('/employees/{employee}/managers-up-to-founder-salary', [EmployeeController::class, "getManagersUpToFounderSalary"]);
         Route::get('/employees/mangers', [EmployeeController::class, "mangers"]);
+        Route::get('/employees/search', [EmployeeController::class, "search"]);
+        Route::get('/employees/export', [EmployeeController::class, "export"]);
+        Route::get('/employees/import', [EmployeeController::class, "import"]);
         Route::apiResource('employees', EmployeeController::class);
 
         // jobs
