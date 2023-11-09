@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
 
 class RemoveLogFiles extends Command
 {
@@ -17,6 +15,10 @@ class RemoveLogFiles extends Command
 
         foreach ($files as $file) {
             if (is_file($file)) {
+                // and file is not .gitignore
+                if (basename($file) == '.gitignore') {
+                    continue;
+                }
                 unlink($file); // Delete the file
             }
         }

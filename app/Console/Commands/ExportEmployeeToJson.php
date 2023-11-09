@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Employee;
-use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
 
 class ExportEmployeeToJson extends Command
 {
@@ -19,8 +17,8 @@ class ExportEmployeeToJson extends Command
         $json = $employees->toJson(JSON_PRETTY_PRINT);
 
         $filename = 'employees_' . now()->format('Y-m-d_H-i-s') . '.json';
-        file_put_contents(storage_path('app/' . $filename), $json);
+        file_put_contents(storage_path('app/exports/' . $filename), $json);
 
-        $this->info('Employees exported to ' . $filename);
+        $this->info('Employees exported to location ' . storage_path('app/exports/' . $filename));
     }
 }

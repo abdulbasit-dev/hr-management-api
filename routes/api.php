@@ -43,12 +43,14 @@ Route::group(["middleware" => ["throttle:30,1"]], function () {
         Route::apiResource('users', UserController::class);
 
         // employees
-        Route::get('/employees/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
-        Route::get('/employees/{employee}/managers-up-to-founder-salary', [EmployeeController::class, "getManagersUpToFounderSalary"]);
-        Route::get('/employees/mangers', [EmployeeController::class, "managers"]);
-        Route::get('/employees/search', [EmployeeController::class, "search"]);
-        Route::get('/employees/export', [EmployeeController::class, "export"]);
-        Route::post('/employees/import', [EmployeeController::class, "import"]);
+        Route::group(["prefix" => "employees"], function () {
+            Route::get('/{employee}/managers-up-to-founder', [EmployeeController::class, "getManagersUpToFounder"]);
+            Route::get('/{employee}/managers-up-to-founder-salary', [EmployeeController::class, "getManagersUpToFounderSalary"]);
+            Route::get('/mangers', [EmployeeController::class, "managers"]);
+            Route::get('/search', [EmployeeController::class, "search"]);
+            Route::get('/export', [EmployeeController::class, "export"]);
+            Route::post('/import', [EmployeeController::class, "import"]);
+        });
         Route::apiResource('employees', EmployeeController::class);
 
         // jobs

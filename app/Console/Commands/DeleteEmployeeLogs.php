@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\EmployeeLog;
-use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
 
 class DeleteEmployeeLogs extends Command
 {
@@ -14,9 +12,9 @@ class DeleteEmployeeLogs extends Command
 
     public function handle()
     {
-        $oneMonthAgo = now()->subMonth(); // Calculate a date one month ago
-        EmployeeLog::where('created_at', '<', $oneMonthAgo)->delete();
+        // delete logs older than 1 month
+        $count = EmployeeLog::where('created_at', '<', now()->subMonth())->delete();
 
-        $this->info('Logs older than 1 month have been deleted.');
+        $this->info('Logs older than 1 month have been deleted. ' . $count . ' logs deleted.');
     }
 }
