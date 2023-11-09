@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Exports\EmployeeExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\ImportEmployeeRequest;
 use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\ManagerCollection;
+use App\Imports\EmployeeImport;
 use App\Models\Employee;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -43,7 +48,7 @@ class EmployeeController extends Controller
         return new EmployeeCollection($employees);
     }
 
-    public function mangers()
+    public function managers()
     {
         // return all employees (managers) who are manager on other employees
         $managers = Employee::whereHas('employees', function ($query) {
@@ -121,7 +126,6 @@ class EmployeeController extends Controller
     {
         //  Create an Endpoint to Find the given employee’s managers up to the founder ,
         // for example: Oswald Little is an employee , Destinee King is his manager and Dr. Anibal D'Amore is the founder,
-
         $founderName = Employee::where('is_founder', true)->value("name") ?? "Not Founder";
 
         $data = [
@@ -145,5 +149,39 @@ class EmployeeController extends Controller
         ];
 
         return $this->jsonResponse(true, "Employee's managers up to the founder salary", Response::HTTP_OK, $data);
+    }
+
+    public function export()
+    {
+        // create file name
+        $fileName = "employee_export_" .  date('Y-m-d_h:i_a') . ".csv";
+
+        return Excel::download(new EmployeeExport, $fileName, \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
+    }
+
+    public function import()
+    {
+        // begin transaction
+        DB::beginTransaction();
+        try {
+
+            // check if request has file
+            if (!request()->hasFile('data')) {
+                return $this->jsonResponse(false, __('File not found!'), Response::HTTP_NOT_FOUND);
+            }
+
+            Excel::import(new EmployeeImport, request()->file('data'));
+
+            // commit transaction
+            DB::commit();
+
+            return $this->jsonResponse(true, __('Employees imported successfully!'), Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            // rollback transaction
+            DB::rollBack();
+            throw $th;
+        }
     }
 }
