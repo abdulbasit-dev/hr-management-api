@@ -21,6 +21,7 @@ class EmployeeCollection extends ResourceCollection
                     'name' => $data->name,
                     "email" => $data->email,
                     "job_title" => $data->job->name ?? null,
+                    "manager_id" => $data->manager_id,
                     "manager_name" => $data->manager->name ?? null,
                     "age" => $data->age,
                     "gender"=> $data->gender->getLabelText(),

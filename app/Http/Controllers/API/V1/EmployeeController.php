@@ -29,9 +29,11 @@ class EmployeeController extends Controller
 
     public function mangers()
     {
-        // $employees = Employee::paginate(10);
 
-        // return new EmployeeCollection($employees);
+        // return all manger employees
+        $employees = Employee::whereHas('manager')->paginate(10);
+
+
     }
 
     public function store(EmployeeRequest $request)
@@ -97,21 +99,34 @@ class EmployeeController extends Controller
         }
     }
 
-    // Within your controller
-    public function getManagersUpToFounder($employeeId)
+
+    public function getManagersUpToFounder(Employee $employee)
     {
-        $employee = Employee::find($employeeId);
-        $managers = [];
+        //  Create an Endpoint to Find the given employee’s managers up to the founder ,
+        // for example: Oswald Little is an employee , Destinee King is his manager and Dr. Anibal D'Amore is the founder,
 
-        while ($employee && !$employee->is_founder) {
-            $managers[] = $employee->name;
-            $employee = Employee::find($employee->manager_id);
-        }
+        $founderName = Employee::where('is_founder', true)->value("name") ?? "Not Founder";
 
-        if ($employee) {
-            $managers[] = $employee->name; // Include the founder
-        }
+        $data = [
+            $employee->name,
+            $employee->manager->name,
+            $founderName
+        ];
 
-        return $managers;
+        return $this->jsonResponse(true, "Employee's managers up to the founder", Response::HTTP_OK, $data);
+    }
+
+    public function getManagersUpToFounderSalary(Employee $employee)
+    {
+
+        $founder = Employee::where('is_founder', true)->first();
+
+        $data = [
+            $employee->name => $employee->salary,
+            $employee->manager->name => $employee->manager->salary,
+            $founder->name => $founder->salary
+        ];
+
+        return $this->jsonResponse(true, "Employee's managers up to the founder salary", Response::HTTP_OK, $data);
     }
 }

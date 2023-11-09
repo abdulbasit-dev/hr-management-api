@@ -29,9 +29,9 @@ class EmployeeSeeder extends Seeder
             "is_founder" => true,
         ]);
 
-        // create 100 employees
+        // create employees
         foreach (range(1, 50) as $index) {
-            Employee::create([
+            $employee = Employee::create([
                 "job_id" => EmployeeJob::inRandomOrder()->first()->id,
                 "name"  => $faker->name(),
                 "email" => $faker->email(),
@@ -40,6 +40,16 @@ class EmployeeSeeder extends Seeder
                 "salary"    => rand(1000, 2000),
                 "gender" => array_rand(array_column(Gender::cases(), 'value')),
             ]);
+
+            // Each employee except for the founder has a manager which also an employee
+            $employees = Employee::where('is_founder', false)->get();
+
+            foreach ($employees as $employee) {
+                //An employee can't be his/her own manager
+                $manager = Employee::where('id', '!=', $employee->id)->inRandomOrder()->first();
+                $employee->manager_id = $manager->id;
+                $employee->save();
+            }
         }
     }
 }
