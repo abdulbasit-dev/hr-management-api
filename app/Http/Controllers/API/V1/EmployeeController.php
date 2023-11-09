@@ -164,7 +164,6 @@ class EmployeeController extends Controller
         // begin transaction
         DB::beginTransaction();
         try {
-
             // check if request has file
             if (!request()->hasFile('data')) {
                 return $this->jsonResponse(false, __('File not found!'), Response::HTTP_NOT_FOUND);
