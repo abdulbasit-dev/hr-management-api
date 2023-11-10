@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "25474a40-bddd-4069-af6f-7421b741cfaf",
 		"name": "HR Management",
-		"description": "##### status codes\n200 => Ok <br>\n201 => data created <br>\n204 => data deleted <br>\n422 => validation error <br>\n409 => conflict (data already exist) <br>\n500 => Internal server error (come with a resone) <br>",
+		"description": "##### Status Ccodes\n\n200 => Ok  \n  \n201 => data created  \n200 => data deleted  \n404 => object not found\n\n409 => conflict (data already exist)\n\n422 => validation error  \n500 => Internal server error (come with a resone)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12162986"
 	},
@@ -135,54 +135,6 @@
 						"description": "## protected\n## you need pass bearer token"
 					},
 					"response": []
-				},
-				{
-					"name": "reset password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{user_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "lang",
-								"value": "en",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"old_password\":\"password\",\r\n    \"new_password\":\"password1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseurl}}/reset-password",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"reset-password"
-							]
-						},
-						"description": "### protected\n#### reset password"
-					},
-					"response": []
 				}
 			],
 			"auth": {
@@ -210,236 +162,6 @@
 			]
 		},
 		{
-			"name": "Profile",
-			"item": [
-				{
-					"name": "get user profile",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Dummy Category",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/abdulbasit-dev/Downloads/food order/Ice cream/1.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/api/user-profiles",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"api",
-								"user-profiles"
-							]
-						},
-						"description": "#### get user infomation based on the passed user token (for signed user)"
-					},
-					"response": []
-				},
-				{
-					"name": "get user profile Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Dummy Category",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/abdulbasit-dev/Downloads/food order/Ice cream/1.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/api/user-profiles",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"api",
-								"user-profiles"
-							]
-						},
-						"description": "#### get user infomation based on the passed user token (for signed user)"
-					},
-					"response": []
-				},
-				{
-					"name": "get user profile by id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}/api/user-profiles/1",
-							"host": [
-								"{{local}}"
-							],
-							"path": [
-								"api",
-								"user-profiles",
-								"1"
-							]
-						},
-						"description": "#### get user information based on the passed id"
-					},
-					"response": []
-				},
-				{
-					"name": "update profile",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "bio",
-									"value": "test bi4",
-									"type": "text"
-								},
-								{
-									"key": "gender",
-									"value": "3",
-									"type": "text"
-								},
-								{
-									"key": "birthday",
-									"value": "2020/03/20",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/abdulbasit-dev/Desktop/profile image/3.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}/api/user-profiles?_method=PUT",
-							"host": [
-								"{{local}}"
-							],
-							"path": [
-								"api",
-								"user-profiles"
-							],
-							"query": [
-								{
-									"key": "_method",
-									"value": "PUT"
-								}
-							]
-						},
-						"description": "#### update user information, all the data are optional whether you passed or not or pass null,\n\n#### while updating the fName and lName you should send the whole name\ne.g. old name Abdulbasit Salah -> you went to update fName to zana, you should pass ->zana Salah as full name"
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Employees",
 			"item": [
 				{
@@ -461,7 +183,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees",
+							"raw": "{{baseurl}}/employees?limit=11",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -471,8 +193,7 @@
 							"query": [
 								{
 									"key": "limit",
-									"value": "10",
-									"disabled": true
+									"value": "11"
 								}
 							]
 						},
@@ -499,7 +220,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees/search?limit=10&name=Orlando&salary=1302",
+							"raw": "{{baseurl}}/employees/search?limit=10&name=rew",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -514,11 +235,12 @@
 								},
 								{
 									"key": "name",
-									"value": "Orlando"
+									"value": "rew"
 								},
 								{
 									"key": "salary",
-									"value": "1302"
+									"value": "1302",
+									"disabled": true
 								}
 							]
 						},
@@ -545,13 +267,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees/210",
+							"raw": "{{baseurl}}/employees/11",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"employees",
-								"210"
+								"11"
 							]
 						},
 						"description": "#### get user infomation based on the passed user token (for signed user)"
@@ -577,13 +299,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees/210/managers-up-to-founder",
+							"raw": "{{baseurl}}/employees/11/managers-up-to-founder",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"employees",
-								"210",
+								"11",
 								"managers-up-to-founder"
 							]
 						},
@@ -610,13 +332,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees/210/managers-up-to-founder-salary",
+							"raw": "{{baseurl}}/employees/11/managers-up-to-founder-salary",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"employees",
-								"210",
+								"11",
 								"managers-up-to-founder-salary"
 							]
 						},
@@ -678,13 +400,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/employees/2",
+							"raw": "{{baseurl}}/employees/52",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"employees",
-								"2"
+								"52"
 							]
 						},
 						"description": "#### update user information, all the data are optional whether you passed or not or pass null,\n\n#### while updating the fName and lName you should send the whole name\ne.g. old name Abdulbasit Salah -> you went to update fName to zana, you should pass ->zana Salah as full name"

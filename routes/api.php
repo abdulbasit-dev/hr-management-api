@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\V1\{
 };
 use Illuminate\Support\Facades\Artisan;
 
-Route::group(["middleware" => ["throttle:30,1"]], function () {
+Route::group(["middleware" => ["throttle:10,1"]], function () {
     /*======PUBLIC ROUTES=====*/
 
     //Clear all cache
