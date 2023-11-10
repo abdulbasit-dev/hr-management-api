@@ -89,7 +89,7 @@ We have already set up email sending in this project, and we're using MailTrap, 
 You can check the emails we send from the application without signing up for MailTrap. We've provided the MailTrap credentials, so follow
 the steps below:
 
-1. **Visit MailTrap Inbox:** Open [MailTrap Inbox](https://mailtrap.io/inboxes/1432104/messages/3650415878) to view the emails sent from the
+1. **Visit MailTrap Inbox:** Open [MailTrap Inbox](https://mailtrap.io/inboxes/1432104/messages) to view the emails sent from the
    application. This link will take you directly to the inbox where you can see the emails.
 
 2. **Login to MailTrap:** Use the following MailTrap login credentials to access the inbox:
